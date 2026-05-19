@@ -87,6 +87,21 @@ class Piece:
                         return True
         return False
 
+    def rotate(self, direction: str = 'clockwise') -> None:
+        self.erase()
+        
+        old_form = self.form
+        transposed = list(map(list, zip(*self.form)))
+
+        if direction == 'clockwise':
+            self.form = [row[::-1] for row in transposed]
+        elif direction == 'counter':
+            self.form = transposed[::-1]
+
+        if self.check_collision():
+            self.form = old_form
+        self.draw()
+
 pygame.init()
 screen = pygame.display.set_mode((QUALITY*WIDTH, QUALITY*HEIGHT))
 clock = pygame.time.Clock()
@@ -103,6 +118,8 @@ while running:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_DOWN:
                 current_drop_delay = FAST_DROP_DELAY
+            elif event.key == pygame.K_r:
+                piece.rotate()
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_DOWN:
                 current_drop_delay = NORMAL_DROP_DELAY
