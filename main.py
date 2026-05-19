@@ -100,6 +100,12 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_DOWN:
+                current_drop_delay = FAST_DROP_DELAY
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_DOWN:
+                current_drop_delay = NORMAL_DROP_DELAY
 
     screen.fill(BG_COLOR)
 
@@ -110,8 +116,7 @@ while running:
             piece.move(-1, 0)
         elif keys[pygame.K_RIGHT]:
             piece.move(1, 0)
-        elif keys[pygame.K_DOWN]:
-            current_drop_delay = FAST_DROP_DELAY
+
         move_time = 0
 
     fall_time += dt
